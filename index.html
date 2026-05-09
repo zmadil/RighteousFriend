@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Righteous Friend | Prayer Accountability</title>
+  <meta name="description" content="A message-based prayer accountability companion that helps Muslims stay consistent with salah through simple daily check-ins and personalized feedback." />
+  <style>
+    :root {
+      --cream: #fbfaf4;
+      --cream2: #f4f0e4;
+      --ink: #081f18;
+      --green: #0f4f37;
+      --green2: #0b3b2e;
+      --green3: #176846;
+      --soft-green: #e8f1df;
+      --muted: #51645a;
+      --line: #e5dfcf;
+      --card: #fffdf7;
+      --shadow: 0 24px 70px rgba(15, 79, 55, .14);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(850px 420px at 70% 8%, rgba(15, 79, 55, .08), transparent 60%),
+        linear-gradient(180deg, #fffdf8 0%, var(--cream) 42%, #fffdf8 100%);
+      color: var(--ink);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    nav {
+      height: 86px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(229, 223, 207, .9);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, var(--green), var(--green2));
+      display: grid;
+      place-items: center;
+      color: white;
+      box-shadow: 0 12px 28px rgba(15, 79, 55, .22);
+      font-size: 24px;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 22px;
+      letter-spacing: -.04em;
+      line-height: 1.05;
+    }
+
+    .brand span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 34px;
+      color: #0c221b;
+      font-weight: 750;
+      font-size: 15px;
+    }
+
+    .nav-links a:hover { color: var(--green); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 0;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-weight: 850;
+      font-size: 15px;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--green), var(--green2));
+      color: white;
+      box-shadow: 0 16px 32px rgba(15, 79, 55, .22);
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      align-items: center;
+      gap: 50px;
+      padding: 62px 0 48px;
+      min-height: 680px;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      bottom: 0;
+      width: 410px;
+      height: 270px;
+      opacity: .16;
+      background:
+        radial-gradient(circle at 50% 38%, #0f4f37 0 58px, transparent 59px),
+        linear-gradient(#0f4f37, #0f4f37) 49% 42% / 115px 130px no-repeat,
+        linear-gradient(#0f4f37, #0f4f37) 78% 16% / 28px 260px no-repeat,
+        radial-gradient(circle at 78% 15%, #0f4f37 0 20px, transparent 21px),
+        linear-gradient(#0f4f37, #0f4f37) 25% 62% / 70px 80px no-repeat,
+        radial-gradient(circle at 25% 58%, #0f4f37 0 34px, transparent 35px);
+      filter: blur(.2px);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--green);
+      background: var(--soft-green);
+      border: 1px solid #dae8cf;
+      border-radius: 999px;
+      padding: 10px 15px;
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .badge svg { width: 18px; height: 18px; }
+
+    h1 {
+      margin: 0 0 20px;
+      max-width: 610px;
+      font-size: clamp(44px, 6vw, 72px);
+      line-height: 1.08;
+      letter-spacing: -.065em;
+      color: #101817;
+    }
+
+    h1 span { color: var(--green); }
+
+    .hero-copy {
+      margin: 0 0 28px;
+      color: #23332d;
+      font-size: 20px;
+      line-height: 1.55;
+      max-width: 560px;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 21px;
+      margin: 34px 0 32px;
+    }
+
+    .feature {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .feature-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 999px;
+      background: #eef2e4;
+      color: var(--green);
+      display: grid;
+      place-items: center;
+      font-size: 23px;
+    }
+
+    .feature strong {
+      display: block;
+      font-size: 18px;
+      color: var(--green);
+      margin-bottom: 4px;
+      letter-spacing: -.025em;
+    }
+
+    .feature span {
+      color: #243832;
+      font-size: 15px;
+    }
+
+    .hero-note {
+      color: #65746d;
+      font-size: 14px;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .phone-wrap {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone {
+      width: min(385px, 100%);
+      min-height: 640px;
+      border-radius: 48px;
+      padding: 13px;
+      background: #111;
+      box-shadow:
+        0 28px 80px rgba(0,0,0,.24),
+        0 0 0 2px rgba(255,255,255,.6) inset;
+      position: relative;
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 118px;
+      height: 32px;
+      border-radius: 999px;
+      background: #050505;
+      z-index: 4;
+    }
+
+    .screen {
+      overflow: hidden;
+      border-radius: 38px;
+      background: #f7f3eb;
+      min-height: 614px;
+      border: 1px solid rgba(255,255,255,.24);
+      position: relative;
+    }
+
+    .status {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      font-weight: 800;
+      font-size: 14px;
+      color: #0b1512;
+      background: rgba(255,255,255,.78);
+    }
+
+    .chat-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 17px 14px;
+      background: rgba(255,255,255,.82);
+      border-bottom: 1px solid #e8e0d3;
+    }
+
+    .back { color: #2563eb; font-size: 26px; line-height: 1; }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+    }
+
+    .chat-head strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.1;
+    }
+
+    .chat-head span {
+      color: #738079;
+      font-size: 12px;
+    }
+
+    .dots { margin-left: auto; color: #64748b; font-size: 20px; }
+
+    .chat {
+      min-height: 488px;
+      padding: 18px 16px 78px;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(15,79,55,.04) 0 2px, transparent 3px),
+        radial-gradient(circle at 78% 28%, rgba(15,79,55,.035) 0 2px, transparent 3px),
+        #f4efe6;
+      background-size: 28px 28px, 34px 34px, auto;
+      position: relative;
+    }
+
+    .bubble-row { display: flex; margin-bottom: 11px; }
+    .bubble-row.right { justify-content: flex-end; }
+    .bubble-row.left { justify-content: flex-start; }
+
+    .bubble {
+      max-width: 76%;
+      padding: 10px 12px 18px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.38;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(15,23,42,.07);
+    }
+
+    .left .bubble {
+      background: white;
+      border-bottom-left-radius: 6px;
+      color: #17211e;
+    }
+
+    .right .bubble {
+      background: #d9f7ce;
+      border-bottom-right-radius: 6px;
+      color: #102019;
+    }
+
+    .time {
+      position: absolute;
+      right: 10px;
+      bottom: 4px;
+      font-size: 10px;
+      color: #7b8881;
+      white-space: nowrap;
+    }
+
+    .typing {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: white;
+      border-radius: 18px;
+      padding: 10px 13px;
+      box-shadow: 0 5px 15px rgba(15,23,42,.07);
+    }
+
+    .typing span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #a6ada9;
+      display: block;
+      animation: blink 1.2s infinite ease-in-out;
+    }
+
+    .typing span:nth-child(2) { animation-delay: .18s; }
+    .typing span:nth-child(3) { animation-delay: .36s; }
+
+    @keyframes blink {
+      0%, 80%, 100% { opacity: .25; transform: translateY(0); }
+      40% { opacity: 1; transform: translateY(-2px); }
+    }
+
+    .textbar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 66px;
+      background: rgba(255,255,255,.88);
+      border-top: 1px solid #e5ddd1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px 12px;
+    }
+
+    .plus { color: #2563eb; font-size: 28px; line-height: 1; }
+
+    .input {
+      flex: 1;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid #d9d5cc;
+      color: #8a918d;
+      background: white;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      font-size: 14px;
+    }
+
+    .mic {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+    }
+
+    .section {
+      padding: 52px 0;
+      border-top: 1px solid rgba(229, 223, 207, .75);
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 38px;
+    }
+
+    .section-title h2 {
+      margin: 0 0 8px;
+      color: var(--green2);
+      font-size: clamp(30px, 4vw, 42px);
+      letter-spacing: -.04em;
+      line-height: 1.08;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: #385047;
+      font-size: 16px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      text-align: center;
+      background: rgba(255,255,255,.48);
+      border-radius: 26px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      box-shadow: 0 18px 50px rgba(15,79,55,.06);
+    }
+
+    .step {
+      position: relative;
+      padding: 34px 26px 36px;
+      border-right: 1px solid var(--line);
+    }
+
+    .step:last-child { border-right: 0; }
+
+    .step-number {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .step-icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 17px;
+      border-radius: 50%;
+      background: #eef2e4;
+      color: var(--green);
+      display: grid;
+      place-items: center;
+      font-size: 30px;
+    }
+
+    .step h3 {
+      margin: 0 0 9px;
+      color: var(--green2);
+      font-size: 18px;
+      letter-spacing: -.02em;
+    }
+
+    .step p {
+      margin: 0;
+      color: #354b43;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .why {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .why-card {
+      display: flex;
+      gap: 14px;
+      padding: 22px;
+      background: rgba(255,255,255,.56);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+    }
+
+    .why-icon {
+      flex: 0 0 auto;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #eef2e4;
+      color: var(--green);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+    }
+
+    .why-card strong {
+      display: block;
+      color: #14231f;
+      font-size: 15px;
+      margin-bottom: 7px;
+    }
+
+    .why-card span {
+      color: #41564f;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .community {
+      display: grid;
+      grid-template-columns: 90px 1fr auto;
+      align-items: center;
+      gap: 26px;
+      background: linear-gradient(135deg, #eef2e4, #fffdf7);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 30px 34px;
+      box-shadow: 0 18px 50px rgba(15,79,55,.08);
+      margin: 36px 0 56px;
+    }
+
+    .community-icon {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: #dde9d2;
+      display: grid;
+      place-items: center;
+      color: var(--green);
+      font-size: 38px;
+    }
+
+    .community h2 {
+      margin: 0 0 8px;
+      color: var(--green2);
+      font-size: 30px;
+      letter-spacing: -.04em;
+    }
+
+    .community p {
+      margin: 0;
+      color: #40564e;
+      line-height: 1.55;
+    }
+
+    footer {
+      background: linear-gradient(135deg, var(--green2), #08271d);
+      color: rgba(255,255,255,.78);
+      padding: 28px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-brand .brand-mark {
+      box-shadow: none;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    .quote {
+      text-align: center;
+      padding: 34px 0 44px;
+      color: #243832;
+    }
+
+    .quote-mark {
+      color: #9ebf79;
+      font-size: 50px;
+      line-height: .7;
+      font-weight: 900;
+    }
+
+    .quote p {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 960px) {
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding-top: 34px;
+      }
+
+      .phone { width: min(375px, 100%); }
+      .steps, .why { grid-template-columns: 1fr 1fr; }
+      .step:nth-child(2) { border-right: 0; }
+      .step { border-bottom: 1px solid var(--line); }
+      .step:nth-child(3), .step:nth-child(4) { border-bottom: 0; }
+      .community { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    }
+
+    @media (max-width: 680px) {
+      .page { width: min(100% - 28px, 1180px); }
+      nav { height: 76px; }
+      .nav-links { display: none; }
+      .brand strong { font-size: 19px; }
+      h1 { font-size: 42px; }
+      .hero-copy { font-size: 17px; }
+      .steps, .why { grid-template-columns: 1fr; }
+      .step { border-right: 0 !important; border-bottom: 1px solid var(--line); }
+      .step:last-child { border-bottom: 0; }
+      .phone { min-height: 600px; }
+      .screen { min-height: 574px; }
+      .chat { min-height: 448px; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav>
+      <a class="brand" href="#top" aria-label="Righteous Friend home">
+        <div class="brand-mark">🧔🏽‍♂️</div>
+        <div>
+          <strong>Righteous Friend</strong>
+          <span>Prayer Accountability</span>
+        </div>
+      </a>
+
+      <div class="nav-links">
+        <a href="#how">How It Works</a>
+        <a href="#why">Why It Works</a>
+        <a class="btn btn-primary" href="#groups">Sign up for Free</a>
+      </div>
+    </nav>
+
+    <main class="hero" id="top">
+      <section>
+        <div class="badge">
+          <span>👥</span>
+          <span>A righteous friend in your pocket — not an app.</span>
+        </div>
+
+        <h1><span>Daily prayer consistency...</span>just a text away!</h1>
+        <p class="hero-copy">
+          No apps. No dashboards. Just a righteous friend who checks in, encourages you,
+          and helps you grow — every single day.
+        </p>
+
+        <div class="feature-list">
+          <div class="feature">
+            <div class="feature-icon">💬</div>
+            <div>
+              <strong>No app. No download.</strong>
+              <span>Works in your messages. That’s it.</span>
+            </div>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">⏱️</div>
+            <div>
+              <strong>Just 10 seconds a day.</strong>
+              <span>Quick check-in. Big impact.</span>
+            </div>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">👥</div>
+            <div>
+              <strong>Community accountability.</strong>
+              <span>We rise together.</span>
+            </div>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">✨</div>
+            <div>
+              <strong>Personalized feedback.</strong>
+              <span>Detailed insights on your highs and lows.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="eature-icon">🔒 No signups. No passwords. Just start.</div>
+      </section>
+
+      <section class="phone-wrap" aria-label="Messaging preview">
+        <div class="phone">
+          <div class="screen">
+            <div class="status">
+              <span>9:41</span>
+              <span>▮▮▮  Wi‑Fi  ▰</span>
+            </div>
+
+            <div class="chat-head">
+              <div class="back">‹</div>
+              <div class="avatar">🧔🏽‍♂️</div>
+              <div>
+                <strong>Righteous Friend</strong>
+                <span>online</span>
+              </div>
+              <div class="dots">•••</div>
+            </div>
+
+            <div class="chat">
+              <div class="bubble-row left">
+                <div class="bubble">
+                  Assalamu alaikum! 🌙<br>
+                  How was your prayer day today?
+                  <span class="time">9:00 PM</span>
+                </div>
+              </div>
+
+              <div class="bubble-row right">
+                <div class="bubble">
+                  Wa alaikum assalam!<br>
+                  5 prayers Alhamdulillah.
+                  <span class="time">9:00 PM ✓✓</span>
+                </div>
+              </div>
+
+              <div class="bubble-row left">
+                <div class="bubble">
+                  Alhamdulillah! May Allah accept it from you. 🙌
+                  <span class="time">9:00 PM</span>
+                </div>
+              </div>
+                
+              
+              <div class="bubble-row left">
+                <div class="typing" aria-label="typing indicator">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+
+              <div class="textbar">
+                <div class="plus">＋</div>
+                <div class="input">Message...</div>
+                <div class="mic">🎙</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <section class="section" id="how">
+    <div class="page">
+      <div class="section-title">
+        <h2>How It Works</h2>
+        <p>Simple. Personal. Powerful.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-icon">🔗</div>
+          <h3>Personal link</h3>
+          <p>Get your personalized link everyday.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-icon">💬</div>
+          <h3>Daily check-in</h3>
+          <p>You’ll get a friendly reminder every day</p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-icon">📈</div>
+          <h3>Smart tracking</h3>
+          <p>We track your prayers</p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-icon">⭐</div>
+          <h3>Personalized feedback</h3>
+          <p>Weekly and monthly summaries on your highs, lows, and actionable tips.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="why">
+    <div class="page">
+      <div class="section-title">
+        <h2>Why It Works</h2>
+      </div>
+
+      <div class="why">
+        <div class="why-card">
+          <div class="why-icon">♥</div>
+          <div>
+            <strong>Accountability</strong>
+            <span>Stay consistent because someone cares.</span>
+          </div>
+        </div>
+
+        <div class="why-card">
+          <div class="why-icon">👥</div>
+          <div>
+            <strong>Encouragement that feels personal</strong>
+            <span>Motivation and reminders tailored just for you.</span>
+          </div>
+        </div>
+
+        <div class="why-card">
+          <div class="why-icon">↗</div>
+          <div>
+            <strong>Track progress and see real improvement</strong>
+            <span>Understand your patterns and grow over time.</span>
+          </div>
+        </div>
+
+        <div class="why-card">
+          <div class="why-icon">🛡</div>
+          <div>
+            <strong>Private and secure. Only for you.</strong>
+            <span>Your data stays private, always.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="groups">
+    <div class="page">
+      <div class="community">
+        <div class="community-icon">👥</div>
+        <div>
+          <h2>Stronger together.</h2>
+          <p>Join your muslim brothers who supports each other towards Jannah, inshaAllah.</p>
+        </div>
+        <a class="btn btn-primary" href="mailto:evolveit23@gmail.com?subject=Righteous%20Friend%20Request&body=Name:%0D%0AEmail:%0D%0APhone%20Number:">👥 Request to Join</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote">
+    <div class="page">
+      <div class="quote-mark">“</div>
+      <p><strong>Small daily conversations. Big lifelong change.</strong><br>Let’s grow together, one day at a time.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="page footer-inner">
+      <div class="footer-brand">
+        <div class="brand-mark">🧔🏽‍♂️</div>
+        <div>
+          <strong>Righteous Friend</strong><br>
+          <span>Your righteous friend for daily prayer consistency.</span>
+        </div>
+      </div>
+      <div>Made with sincerity for the Ummah</div>
+    </div>
+  </footer>
+</body>
+</html>
